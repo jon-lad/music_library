@@ -2,11 +2,12 @@ from lib.album_repository import AlbumRepository
 from lib.album import Album
 
 """
-We test calling all on album repository returns a list of 'Album insances
+Test calling all on album repository returns a list of 'Album insances
 """
 def test_calling_all_returns_a_list_of_album_instances(db_connection):
-    album_repository = AlbumRepository(db_connection)
     db_connection.seed("seeds/music_library.sql")
+    album_repository = AlbumRepository(db_connection)
+    
 
     actual = album_repository.all()
 
@@ -25,4 +26,17 @@ def test_calling_all_returns_a_list_of_album_instances(db_connection):
             Album(12, 'Ring Ring', 1973, 2)
         ]
     
+    assert actual == expected
+
+"""
+Test calling find with an id returns album with that id
+"""
+def test_calling_find_returns_album_with_id(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    album_repository = AlbumRepository(db_connection)
+
+    actual = album_repository.find(7)
+
+    expected = Album(7, 'Folklore', 2020, 3)
+
     assert actual == expected
